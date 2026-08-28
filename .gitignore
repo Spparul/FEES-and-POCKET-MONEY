@@ -1,0 +1,24 @@
+# Virtual environments
+venv/
+backend/venv/
+.venv/
+
+# Node modules & build artifacts
+node_modules/
+frontend/node_modules/
+pocket_money_system/frontend/node_modules/
+dist/
+frontend/dist/
+pocket_money_system/frontend/dist/
+
+# Python cache & bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# System files & IDE
+.DS_Store
+.vscode/
+.idea/
+*.log

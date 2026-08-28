@@ -1,0 +1,200 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap');
+
+/* THEME 1: HERITAGE LEDGER (DEFAULT - NO WHITE, NO BLUE) */
+:root, [data-theme="heritage"] {
+  --bg-page: #f4efe0;
+  --bg-header: #1f1812;
+  --bg-sidebar: #1f1812;
+  --bg-card: #eae3d2;
+  --bg-table-head: #dfd7c2;
+  --bg-hover: #e5dcc6;
+  --text-primary: #2c1f14;
+  --text-secondary: #5c4a3a;
+  --text-header: #f4efe0;
+  --text-header-muted: #a89876;
+  --border-color: #c4b799;
+  --border-dark: #2e241c;
+  --accent-gold: #b38b46;
+  --accent-primary: #422b1b;
+  --pill-paid-bg: #d9e5d6;
+  --pill-paid-text: #1e3b22;
+  --pill-paid-border: #b7cca4;
+  --pill-due-bg: #ebd8ab;
+  --pill-due-text: #4d370e;
+  --pill-due-border: #cbb27a;
+}
+
+/* THEME 2: CLASSIC SCHOOL */
+[data-theme="classic"] {
+  --bg-page: #f4efe0;
+  --bg-header: #2b1f1a;
+  --bg-sidebar: #1f1812;
+  --bg-card: #eae3d2;
+  --bg-table-head: #dfd7c2;
+  --bg-hover: #e5dcc6;
+  --text-primary: #2c1f14;
+  --text-secondary: #5c4a3a;
+  --text-header: #f4efe0;
+  --text-header-muted: #a89876;
+  --border-color: #c4b799;
+  --border-dark: #2e241c;
+  --accent-gold: #b38b46;
+  --accent-primary: #422b1b;
+  --pill-paid-bg: #d9e5d6;
+  --pill-paid-text: #1e3b22;
+  --pill-paid-border: #b7cca4;
+  --pill-due-bg: #eddcd0;
+  --pill-due-text: #4a2511;
+  --pill-due-border: #d9bfae;
+}
+
+/* THEME 3: FOREST LEDGER */
+[data-theme="forest"] {
+  --bg-page: #f4efe0;
+  --bg-header: #1e3b22;
+  --bg-sidebar: #152918;
+  --bg-card: #eae3d2;
+  --bg-table-head: #dfd7c2;
+  --bg-hover: #e5dcc6;
+  --text-primary: #2c1f14;
+  --text-secondary: #5c4a3a;
+  --text-header: #f4efe0;
+  --text-header-muted: #a8c1a6;
+  --border-color: #c4b799;
+  --border-dark: #1e3b22;
+  --accent-gold: #b38b46;
+  --accent-primary: #1e3b22;
+  --pill-paid-bg: #d9e5d6;
+  --pill-paid-text: #1e3b22;
+  --pill-paid-border: #b7cca4;
+  --pill-due-bg: #ebd8ab;
+  --pill-due-text: #4d370e;
+  --pill-due-border: #cbb27a;
+}
+
+/* THEME 4: BURGUNDY LEDGER */
+[data-theme="burgundy"] {
+  --bg-page: #f4efe0;
+  --bg-header: #380f1b;
+  --bg-sidebar: #280a13;
+  --bg-card: #eae3d2;
+  --bg-table-head: #dfd7c2;
+  --bg-hover: #e5dcc6;
+  --text-primary: #2c1f14;
+  --text-secondary: #5c4a3a;
+  --text-header: #f4efe0;
+  --text-header-muted: #e6b3c2;
+  --border-color: #c4b799;
+  --border-dark: #380f1b;
+  --accent-gold: #b38b46;
+  --accent-primary: #380f1b;
+  --pill-paid-bg: #d9e5d6;
+  --pill-paid-text: #1e3b22;
+  --pill-paid-border: #b7cca4;
+  --pill-due-bg: #ebd8ab;
+  --pill-due-text: #4d370e;
+  --pill-due-border: #cbb27a;
+}
+
+/* BALANCED ELEGANT DESKTOP SCALE (+2px BIGGER, NO EYE STRAIN) */
+html {
+  font-size: 13px;
+  zoom: 0.96;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  font-size: 13px;
+  line-height: 1.45;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Headings Scale */
+h1 {
+  font-size: 17px !important;
+  font-weight: 800 !important;
+  font-family: 'Outfit', 'Cinzel', serif !important;
+}
+
+h2 {
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  font-family: 'Outfit', 'Cinzel', serif !important;
+}
+
+h3 {
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  font-family: 'Outfit', 'Cinzel', serif !important;
+}
+
+p, span, label {
+  font-size: 13px;
+}
+
+/* Structured Card & Filter Box Fills (Prevents "Nude" Look) */
+.card, .filter-box, [class*="bg-[var(--bg-card)]"] {
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 1px 3px rgba(44, 31, 20, 0.06);
+}
+
+/* Table Typography & Cell Padding */
+.ledger-table th, table th {
+  padding: 7px 11px !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  white-space: nowrap !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  background-color: var(--bg-table-head) !important;
+  color: var(--text-primary) !important;
+}
+
+.ledger-table td, table td {
+  padding: 7px 11px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  border-color: var(--border-color) !important;
+  white-space: nowrap !important;
+}
+
+/* Buttons, Inputs, Selects */
+button, select, input {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+}
+
+input[type="text"], input[type="number"], input[type="date"], select, .select-field, .input-field {
+  height: 32px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-right: 10px;
+  font-size: 13px;
+  background-color: var(--bg-page);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-page);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
