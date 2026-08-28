@@ -3,13 +3,10 @@ venv/
 backend/venv/
 .venv/
 
-# Node modules & build artifacts
+# Node modules
 node_modules/
 frontend/node_modules/
 pocket_money_system/frontend/node_modules/
-dist/
-frontend/dist/
-pocket_money_system/frontend/dist/
 
 # Python cache & bytecode
 __pycache__/
