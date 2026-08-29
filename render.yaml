@@ -1,0 +1,26 @@
+services:
+  # App 1: School Fee System Backend
+  - type: web
+    name: school-fee-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: PYTHON_VERSION
+        value: "3.11.0"
+
+  # App 2: Pocket Money System Backend
+  - type: web
+    name: pocket-money-backend
+    runtime: python
+    rootDir: pocket_money_system/backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: PYTHON_VERSION
+        value: "3.11.0"
