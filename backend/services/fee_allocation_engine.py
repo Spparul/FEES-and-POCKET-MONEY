@@ -2,7 +2,6 @@ from sqlalchemy.orm import Session
 from datetime import datetime
 from typing import List, Dict, Any, Optional
 import models
-from services.sync_dispatcher import sync_student_then_transfer
 from models import PocketMoneyTxTypeEnum
 
 
@@ -389,18 +388,6 @@ def process_interactive_fee_payment(
             )
             db.add(pm_tx)
 
-            # Sync to pocket money system (separate service on port 8001)
-            try:
-                sync_student_then_transfer(
-                    student_obj=student,
-                    transfer_id=excess.transfer_id,
-                    amount=excess.excess_amount,
-                    source_payment_no=payment_no,
-                    approved_by="Administrator",
-                    remarks=excess.remarks
-                )
-            except Exception as se:
-                print(f"PM sync error (payment still saved): {se}")
 
         if student.is_sponsored:
             student.has_mismatch = True

@@ -124,37 +124,6 @@ def get_student_pocket_transactions(student_id: int, db: Session = Depends(get_d
         ) for t in txs
     ]
 
-@router.post("/sync-from-pm")
-def sync_from_pocket_money_system(data: dict, db: Session = Depends(get_db)):
-    """Receive pocket money transactions synced from the separate PM system."""
-    pay_id = data.get("pay_id")
-    if not pay_id:
-        raise HTTPException(status_code=400, detail="pay_id required")
-
-    student = db.query(Student).filter(Student.pay_id == pay_id).first()
-    if not student:
-        raise HTTPException(status_code=404, detail=f"Student with PayID {pay_id} not found")
-
-    tx_type_str = data.get("transaction_type", "RECEIVED_FROM_PARENT")
-    try:
-        tx_type = PocketMoneyTxTypeEnum(tx_type_str)
-    except ValueError:
-        tx_type = PocketMoneyTxTypeEnum.RECEIVED_FROM_PARENT
-
-    tx = PocketMoneyTransaction(
-        student_id=student.id,
-        transaction_date=data.get("transaction_date", ""),
-        transaction_type=tx_type,
-        amount=data.get("amount", 0.0),
-        source_or_recipient=data.get("source_or_recipient"),
-        receipt_ref=data.get("receipt_ref"),
-        remarks=data.get("remarks", "Synced from Pocket Money System")
-    )
-    db.add(tx)
-    db.commit()
-    db.refresh(tx)
-
-    return {"status": "SUCCESS", "transaction_id": tx.id}
 
 @router.delete("/transactions/{tx_id}")
 def delete_pocket_money_tx(tx_id: int, db: Session = Depends(get_db)):

@@ -6,7 +6,6 @@ import models
 def format_standard(std_val: str) -> str:
     mapping = {"VIII": "Form 1", "IX": "Form 2", "X": "Form 3", "XI": "11", "XII": "12"}
     return mapping.get(str(std_val), str(std_val))
-from services.sync_dispatcher import sync_student_then_transfer
 from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
@@ -133,15 +132,7 @@ def decide_fee_excess(data: ExcessDecisionSchema, db: Session = Depends(get_db))
         )
         db.add(pm_tx)
 
-        db.commit()  # flush excess.transfer_id before sync
-        sync_result = sync_student_then_transfer(
-            student_obj=student,
-            transfer_id=excess.transfer_id,
-            amount=excess.excess_amount,
-            source_payment_no=payment_no,
-            approved_by=data.approved_by,
-            remarks=excess.remarks
-        )
+        db.commit()
     elif data.decision == "EXCESS" or data.decision == "TAG_AS_EXCESS":
         excess.status = models.ExcessStatusEnum.EXCESS
     elif data.decision == "APPLY_TO_FUTURE_FEES":

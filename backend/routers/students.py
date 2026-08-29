@@ -13,7 +13,6 @@ from schemas import (
 )
 from services.fee_service import calculate_student_fee_overview
 from services.pocket_money_service import calculate_pocket_money_summary
-from services.sync_dispatcher import sync_student_profile
 from routers.auth import verify_password
 from datetime import datetime
 
@@ -433,11 +432,6 @@ def update_student(
     db.commit()
     db.refresh(student)
 
-    # Local HTTP sync to Pocket Money application
-    try:
-        sync_student_profile(student)
-    except Exception as se:
-        print(f"Student sync notice: {se}")
 
     fee_overview = calculate_student_fee_overview(db, student, acad_year)
     pocket_summary = calculate_pocket_money_summary(db, student.id)

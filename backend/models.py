@@ -207,6 +207,8 @@ class PocketMoneyTransaction(Base):
     amount = Column(Float, nullable=False)
     source_or_recipient = Column(String, nullable=True)
     receipt_ref = Column(String, nullable=True)
+    transfer_id = Column(String, unique=True, index=True, nullable=True)
+    source_payment_no = Column(String, nullable=True)
     remarks = Column(Text, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 

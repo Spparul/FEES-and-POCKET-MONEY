@@ -9,6 +9,10 @@ echo ""
 # Dir path
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+# PostgreSQL connection (set this to your actual database URL)
+export DATABASE_URL="${DATABASE_URL:-postgresql://dhanapal_user:dhanapal_pass@localhost:5432/dhanapal_db}"
+echo "Database: PostgreSQL (centralized)"
+
 # Start School Fee Backend (Port 8000)
 cd "$DIR/backend"
 ../venv/bin/uvicorn main:app --host 127.0.0.1 --port 8000 --reload > "$DIR/backend.log" 2>&1 &
@@ -33,7 +37,7 @@ echo "✅ Cloudflare Tunnel started for Pocket Money Backend (PID: $PID4)"
 echo ""
 echo "=========================================================="
 echo " All servers are running in the background!"
-echo " SQLite Database: 100% Persistent on your local computer."
+echo " Database: Centralized PostgreSQL (shared by both apps)"
 echo " Press Ctrl+C anytime to stop."
 echo "=========================================================="
 

@@ -180,7 +180,7 @@ def seed_db():
 
         db.commit()
         total_students = db.query(Student).count()
-        print(f"Successfully imported {total_students} real students into SQLite database school.db!")
+        print(f"Successfully imported {total_students} students into the database!")
 
     except Exception as e:
         db.rollback()

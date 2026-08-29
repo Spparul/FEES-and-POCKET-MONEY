@@ -2,9 +2,6 @@ from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 from typing import List, Optional
 from datetime import datetime
-import urllib.request
-import json
-import logging
 from database import get_db
 from models import (
     Student, PocketMoneyTransaction, PocketMoneyTxTypeEnum,
@@ -18,24 +15,6 @@ from services.pocket_money_service import (
     calculate_pocket_money_summary, get_student_transactions_with_balances,
     get_all_transactions_latest_first, get_daily_statement, get_monthly_statement
 )
-
-logger = logging.getLogger("pm_reverse_sync")
-MAIN_SYSTEM_URL = "http://127.0.0.1:8000"
-
-def reverse_sync_to_main_system(student_pay_id: str, tx_data: dict):
-    """Sync pocket money transaction back to the main fee system."""
-    try:
-        payload = json.dumps(tx_data).encode("utf-8")
-        req = urllib.request.Request(
-            f"{MAIN_SYSTEM_URL}/pocket-money/sync-from-pm",
-            data=payload,
-            headers={"Content-Type": "application/json"},
-            method="POST"
-        )
-        with urllib.request.urlopen(req, timeout=5) as resp:
-            return json.loads(resp.read().decode("utf-8"))
-    except Exception as e:
-        logger.warning(f"Reverse sync to main system failed (non-blocking): {e}")
 
 router = APIRouter(prefix="/pocket-money", tags=["pocket-money"])
 
@@ -89,16 +68,6 @@ def record_pocket_money_tx(req: PocketMoneyTxCreate, db: Session = Depends(get_d
     ))
     db.commit()
 
-    # Reverse sync to main system so pocket money held stays consistent
-    reverse_sync_to_main_system(student.pay_id, {
-        "pay_id": student.pay_id,
-        "transaction_date": req.transaction_date,
-        "transaction_type": req.transaction_type.value if hasattr(req.transaction_type, 'value') else req.transaction_type,
-        "amount": req.amount,
-        "source_or_recipient": req.source_or_recipient,
-        "receipt_ref": req.receipt_ref,
-        "remarks": req.remarks or f"Synced from Pocket Money System"
-    })
 
     curr_enr = next((e for e in student.enrollments if e.is_current), None)
     created_at_str = tx.created_at.strftime("%Y-%m-%d %H:%M") if tx.created_at else f"{tx.transaction_date} 00:00"
