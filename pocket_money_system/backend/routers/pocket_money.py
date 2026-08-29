@@ -24,12 +24,6 @@ def record_pocket_money_tx(req: PocketMoneyTxCreate, db: Session = Depends(get_d
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
 
-    if student.boarding_category == BoardingCategoryEnum.DAY_SCHOLAR:
-        raise HTTPException(
-            status_code=400,
-            detail="Pocket money records apply to Hostellers only. Selected student is a Day Scholar."
-        )
-
     if req.amount <= 0:
         raise HTTPException(status_code=400, detail="Transaction amount must be greater than zero.")
 
@@ -134,13 +128,12 @@ def get_overall_pocket_money_summary(db: Session = Depends(get_db)):
     total_returned = sum(t.amount for t in txs if t.transaction_type == PocketMoneyTxTypeEnum.RETURNED_TO_PARENT)
     total_fee_excess = sum(t.amount for t in txs if t.transaction_type == PocketMoneyTxTypeEnum.FEE_EXCESS_TRANSFER)
 
-    hostellers_count = db.query(Student).filter(
-        Student.boarding_category.in_([BoardingCategoryEnum.HOSTEL_ORDINARY, BoardingCategoryEnum.HOSTEL_SPECIAL]),
+    students_count = db.query(Student).filter(
         Student.status == StudentStatusEnum.ACTIVE
     ).count()
 
     return {
-        "hostellers_count": hostellers_count,
+        "students_count": students_count,
         "total_received": total_received,
         "total_fee_excess_transfers": total_fee_excess,
         "total_given": total_given,

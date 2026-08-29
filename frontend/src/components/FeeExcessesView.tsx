@@ -44,7 +44,7 @@ export const FeeExcessesView: React.FC = () => {
   const fetchExcesses = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/excesses?status_filter=${statusFilter}&search=${encodeURIComponent(searchQuery)}`);
+      const res = await fetch(`/api/excesses?status_filter=${statusFilter}&search=${encodeURIComponent(searchQuery)}`);
       if (res.ok) {
         const data = await res.json();
         setExcesses(data.excesses || []);
@@ -78,7 +78,7 @@ export const FeeExcessesView: React.FC = () => {
     setSubmittingDecision(true);
     setDecisionSuccess(null);
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/excesses/decide', {
+      const res = await fetch('/api/excesses/decide', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

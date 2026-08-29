@@ -4,14 +4,14 @@ import { Search, Users, History, Calendar, FileText, Shield, TrendingUp } from '
 interface SidebarProps {
   activeTab: 'quickdesk' | 'register' | 'history' | 'daily' | 'monthly' | 'yearly';
   setActiveTab: (tab: 'quickdesk' | 'register' | 'history' | 'daily' | 'monthly' | 'yearly') => void;
-  totalHostellers: number;
+  totalStudents: number;
   totalHeldBalance: number;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
   activeTab,
   setActiveTab,
-  totalHostellers,
+  totalStudents,
   totalHeldBalance,
 }) => {
   return (
@@ -54,7 +54,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             className={`sidebar-link ${activeTab === 'register' ? 'active' : ''}`}
           >
             <Users size={15} />
-            <span>Boarder Register ({totalHostellers})</span>
+            <span>Student Register ({totalStudents})</span>
           </button>
 
           {/* Section 2: STATEMENTS & AUDIT */}
@@ -106,7 +106,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           K {Math.round(totalHeldBalance || 0).toLocaleString('en-IN')}
         </div>
         <div style={{ fontSize: '10px', color: '#7c6a58', marginTop: '2px' }}>
-          {totalHostellers} Active Boarder Accounts
+          {totalStudents} Active Student Accounts
         </div>
       </div>
     </aside>

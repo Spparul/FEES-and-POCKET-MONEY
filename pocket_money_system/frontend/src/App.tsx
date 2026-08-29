@@ -23,7 +23,7 @@ export const App: React.FC = () => {
   const [selectedDeskStudent, setSelectedDeskStudent] = useState<Student | null>(null);
 
   const [summary, setSummary] = useState({
-    hostellers_count: 0,
+    students_count: 0,
     total_received: 0,
     total_given: 0,
     total_returned: 0,
@@ -59,7 +59,7 @@ export const App: React.FC = () => {
       <Sidebar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        totalHostellers={summary.hostellers_count}
+        totalStudents={summary.students_count}
         totalHeldBalance={summary.currently_held_balance}
       />
 
@@ -67,7 +67,7 @@ export const App: React.FC = () => {
       <main className="main-content">
         <Header
           activeTab={activeTab}
-          totalHostellers={summary.hostellers_count}
+          totalStudents={summary.students_count}
           totalHeldBalance={summary.currently_held_balance}
           totalReceived={summary.total_received}
           totalGiven={summary.total_given}
@@ -105,7 +105,7 @@ export const App: React.FC = () => {
             <TransactionLedgerView
               transactions={transactions}
               loading={loading}
-              totalHostellers={summary.hostellers_count}
+              totalStudents={summary.students_count}
               currentlyHeldBalance={summary.currently_held_balance}
             />
           )}

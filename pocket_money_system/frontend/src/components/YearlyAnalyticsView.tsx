@@ -20,17 +20,14 @@ export const YearlyAnalyticsView: React.FC<YearlyAnalyticsViewProps> = ({
   const [schemeFilter, setSchemeFilter] = useState('');
   const [printing, setPrinting] = useState(false);
 
-  // Filter hostellers only
-  const hostellers = students.filter(s => s.boarding_category !== 'DAY_SCHOLAR');
-
   // Filter dataset by class and scheme
-  const filteredHostellers = hostellers.filter(s => {
+  const filteredStudents = students.filter(s => {
     const matchesClass = !classFilter || formatStandard(s.current_standard) === classFilter;
     const matchesScheme = !schemeFilter || s.boarding_category === schemeFilter;
     return matchesClass && matchesScheme;
   });
 
-  const studentIds = new Set(filteredHostellers.map(s => s.id));
+  const studentIds = new Set(filteredStudents.map(s => s.id));
   const filteredTx = transactions.filter(t => studentIds.has(t.student_id));
 
   // High level stat calculations
@@ -46,7 +43,7 @@ export const YearlyAnalyticsView: React.FC<YearlyAnalyticsViewProps> = ({
     .filter(t => t.transaction_type === 'RETURNED_TO_PARENT')
     .reduce((sum, t) => sum + t.amount, 0);
 
-  const totalHeldBalance = filteredHostellers.reduce((sum, s) => sum + (s.current_balance || 0), 0);
+  const totalHeldBalance = filteredStudents.reduce((sum, s) => sum + (s.current_balance || 0), 0);
 
   // Monthly breakdown array Jan-Dec
   const months = [
@@ -77,18 +74,18 @@ export const YearlyAnalyticsView: React.FC<YearlyAnalyticsViewProps> = ({
   // Class breakdown: Form 1, Form 2, Form 3, 11, 12
   const classLevels = ['Form 1', 'Form 2', 'Form 3', '11', '12'];
   const classData = classLevels.map(clsName => {
-    const clsBoys = filteredHostellers.filter(s => formatStandard(s.current_standard) === clsName);
-    const clsIds = new Set(clsBoys.map(s => s.id));
+    const clsStudents = filteredStudents.filter(s => formatStandard(s.current_standard) === clsName);
+    const clsIds = new Set(clsStudents.map(s => s.id));
     const clsTx = filteredTx.filter(t => clsIds.has(t.student_id));
 
     const deposits = clsTx.filter(t => t.transaction_type === 'RECEIVED_FROM_PARENT').reduce((sum, t) => sum + t.amount, 0);
     const disbursed = clsTx.filter(t => t.transaction_type === 'GIVEN_TO_STUDENT').reduce((sum, t) => sum + t.amount, 0);
-    const held = clsBoys.reduce((sum, s) => sum + (s.current_balance || 0), 0);
-    const avgHeld = clsBoys.length > 0 ? held / clsBoys.length : 0;
+    const held = clsStudents.reduce((sum, s) => sum + (s.current_balance || 0), 0);
+    const avgHeld = clsStudents.length > 0 ? held / clsStudents.length : 0;
 
     return {
       className: clsName,
-      boyCount: clsBoys.length,
+      studentCount: clsStudents.length,
       deposits,
       disbursed,
       held,
@@ -101,15 +98,15 @@ export const YearlyAnalyticsView: React.FC<YearlyAnalyticsViewProps> = ({
     try {
       printDataset({
         title: 'ANNUAL POCKET MONEY FINANCIAL ANALYTICS REPORT',
-        subtitle: `Academic Year ${selectedYear} • (${filteredHostellers.length} hostellers analyzed)`,
+        subtitle: `Academic Year ${selectedYear} • (${filteredStudents.length} students analyzed)`,
         academicYear: selectedYear,
         columns: [
           { header: 'Class', accessor: (c: any) => c.className, align: 'center', width: '15%' },
-          { header: 'Boys Count', accessor: (c: any) => `${c.boyCount} boys`, align: 'center', width: '15%' },
+          { header: 'Students', accessor: (c: any) => `${c.studentCount}`, align: 'center', width: '15%' },
           { header: 'Deposited (K)', accessor: (c: any) => `K ${Math.round(c.deposits).toLocaleString('en-IN')}`, align: 'right', width: '20%' },
           { header: 'Disbursed (K)', accessor: (c: any) => `K ${Math.round(c.disbursed).toLocaleString('en-IN')}`, align: 'right', width: '20%' },
           { header: 'Held Balance (K)', accessor: (c: any) => `K ${Math.round(c.held).toLocaleString('en-IN')}`, align: 'right', width: '15%' },
-          { header: 'Avg / Boy (K)', accessor: (c: any) => `K ${Math.round(c.avgHeld).toLocaleString('en-IN')}`, align: 'right', width: '15%' },
+          { header: 'Avg / Student (K)', accessor: (c: any) => `K ${Math.round(c.avgHeld).toLocaleString('en-IN')}`, align: 'right', width: '15%' },
         ],
         data: classData,
       });
@@ -145,10 +142,10 @@ export const YearlyAnalyticsView: React.FC<YearlyAnalyticsViewProps> = ({
             {/* PROMINENT TOP STUDENT COUNT PILL */}
             <div style={{ backgroundColor: 'var(--bg-table-head)', border: '1px solid var(--border-color)', padding: '6px 12px', borderRadius: '6px', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span style={{ fontSize: '10px', textTransform: 'uppercase', fontWeight: 800, color: 'var(--text-secondary)' }}>
-                FILTERED HOSTELLERS:
+                FILTERED STUDENTS:
               </span>
               <span style={{ fontSize: '14px', fontWeight: 800, fontFamily: 'monospace', color: 'var(--accent-gold)' }}>
-                {filteredHostellers.length} BOYS
+                {filteredStudents.length}
               </span>
             </div>
 
@@ -206,9 +203,10 @@ export const YearlyAnalyticsView: React.FC<YearlyAnalyticsViewProps> = ({
             className="select-field"
             style={{ fontSize: '12px', height: '28px', padding: '0 8px' }}
           >
-            <option value="">All Boarder Schemes</option>
-            <option value="HOSTEL_ORDINARY">Ordinary Hostellers</option>
-            <option value="HOSTEL_SPECIAL">Special Scheme</option>
+            <option value="">All Categories</option>
+            <option value="DAY_SCHOLAR">Day Scholars</option>
+            <option value="HOSTEL_ORDINARY">Ordinary Boarders</option>
+            <option value="HOSTEL_SPECIAL">Special Boarders</option>
           </select>
         </div>
       </div>
@@ -270,11 +268,11 @@ export const YearlyAnalyticsView: React.FC<YearlyAnalyticsViewProps> = ({
             <thead>
               <tr>
                 <th style={{ width: '15%', padding: '10px 12px' }}>CLASS</th>
-                <th style={{ width: '15%', padding: '10px 12px', textAlign: 'center' }}>HOSTELLER BOYS</th>
+                <th style={{ width: '15%', padding: '10px 12px', textAlign: 'center' }}>STUDENTS</th>
                 <th style={{ width: '20%', padding: '10px 12px', textAlign: 'right' }}>TOTAL DEPOSITS (K)</th>
                 <th style={{ width: '20%', padding: '10px 12px', textAlign: 'right' }}>TOTAL DISBURSED (K)</th>
                 <th style={{ width: '15%', padding: '10px 12px', textAlign: 'right' }}>CURRENT HELD (K)</th>
-                <th style={{ width: '15%', padding: '10px 12px', textAlign: 'right' }}>AVG / BOY (K)</th>
+                <th style={{ width: '15%', padding: '10px 12px', textAlign: 'right' }}>AVG / STUDENT (K)</th>
               </tr>
             </thead>
             <tbody>
@@ -284,7 +282,7 @@ export const YearlyAnalyticsView: React.FC<YearlyAnalyticsViewProps> = ({
                     {row.className}
                   </td>
                   <td style={{ padding: '10px 12px', textAlign: 'center', fontWeight: 'bold', fontFamily: 'monospace' }}>
-                    {row.boyCount} boys
+                    {row.studentCount}
                   </td>
                   <td style={{ padding: '10px 12px', textAlign: 'right', fontFamily: 'monospace', fontWeight: 'bold', color: 'var(--pill-paid-text)' }}>
                     K {Math.round(row.deposits).toLocaleString('en-IN')}

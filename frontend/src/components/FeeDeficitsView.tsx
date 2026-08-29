@@ -32,7 +32,7 @@ export const FeeDeficitsView: React.FC = () => {
   const fetchDeficits = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/deficits?status_filter=${statusFilter}&search=${encodeURIComponent(searchQuery)}`);
+      const res = await fetch(`/api/deficits?status_filter=${statusFilter}&search=${encodeURIComponent(searchQuery)}`);
       if (res.ok) {
         const data = await res.json();
         setDeficits(data.deficits || []);

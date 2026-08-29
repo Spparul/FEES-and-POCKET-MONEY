@@ -84,13 +84,15 @@ def get_students(
 
     if search:
         search_pattern = f"%{search.strip()}%"
-        query = query.filter(
-            (Student.name.ilike(search_pattern)) | 
-            (Student.pay_id.ilike(search_pattern)) |
-            (Student.admission_no.ilike(search_pattern)) |
-            (Student.first_name.ilike(search_pattern)) |
-            (Student.last_name.ilike(search_pattern))
-        )
+        from sqlalchemy import or_
+        query = query.filter(or_(
+            Student.name.ilike(search_pattern),
+            Student.pay_id.ilike(search_pattern),
+            Student.admission_no.ilike(search_pattern),
+            Student.first_name.ilike(search_pattern),
+            Student.last_name.ilike(search_pattern),
+            Student.pupil_id.ilike(search_pattern),
+        ))
 
     students = query.all()
     results = []

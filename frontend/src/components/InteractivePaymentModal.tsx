@@ -73,7 +73,7 @@ export const InteractivePaymentModal: React.FC<InteractivePaymentModalProps> = (
     const fetchPreview = async () => {
       setLoadingPreview(true);
       try {
-        const res = await fetch('http://127.0.0.1:8000/api/fees/payments/preview', {
+        const res = await fetch('/api/fees/payments/preview', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -119,7 +119,7 @@ export const InteractivePaymentModal: React.FC<InteractivePaymentModalProps> = (
     setSubmitting(true);
     setError(null);
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/fees/payments/interactive', {
+      const res = await fetch('/api/fees/payments/interactive', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

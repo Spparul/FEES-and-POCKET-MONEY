@@ -124,7 +124,7 @@ export async function getStudents(params?: {
   if (params?.academic_level) query.append("academic_level", params.academic_level);
 
   const res = await fetch(`${API_BASE}/students?${query.toString()}`);
-  if (!res.ok) throw new Error("Failed to fetch hostellers");
+  if (!res.ok) throw new Error("Failed to fetch students");
   return res.json();
 }
 

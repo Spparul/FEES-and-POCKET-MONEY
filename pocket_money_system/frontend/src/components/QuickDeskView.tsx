@@ -42,10 +42,7 @@ export const QuickDeskView: React.FC<QuickDeskViewProps> = ({
     }
   }, [selectedDeskStudent]);
 
-  // Hosteller boarders only
-  const hostellers = students.filter((s) => s.boarding_category !== 'DAY_SCHOLAR');
-
-  const searchMatches = hostellers.filter((s) => {
+  const searchMatches = students.filter((s) => {
     const q = searchQuery.toLowerCase().trim();
     if (!q) return false;
     return (
@@ -198,7 +195,7 @@ export const QuickDeskView: React.FC<QuickDeskViewProps> = ({
                 COUNTER TERMINAL
               </span>
               <h2 style={{ fontSize: '18px', fontWeight: 800, color: '#2c1f14', marginBottom: '2px' }}>
-                Boarder Pocket Money Counter Desk
+                Student Pocket Money Counter Desk
               </h2>
               <p style={{ fontSize: '12px', color: '#7c6a58', marginBottom: '12px' }}>
                 Search PayID / Admission Number or Student Name and press <strong>ENTER</strong> to open counter.
@@ -255,7 +252,7 @@ export const QuickDeskView: React.FC<QuickDeskViewProps> = ({
                 {selectedStudent.name}
               </div>
               <div style={{ fontSize: '12px', color: 'var(--text-secondary)', fontWeight: 600, marginTop: '1px' }}>
-                PayID: <strong style={{ color: 'var(--text-primary)', fontFamily: 'monospace' }}>{selectedStudent.pay_id}</strong> • Class: <strong>{formatStandard(selectedStudent.current_standard)}</strong> • Sec: <strong>{selectedStudent.current_section || '—'}</strong> • Scheme: <strong>{selectedStudent.boarding_category === 'HOSTEL_SPECIAL' ? 'Special Boarder' : 'Ordinary Boarder'}</strong>
+                PayID: <strong style={{ color: 'var(--text-primary)', fontFamily: 'monospace' }}>{selectedStudent.pay_id}</strong> • Class: <strong>{formatStandard(selectedStudent.current_standard)}</strong> • Sec: <strong>{selectedStudent.current_section || '—'}</strong> • Category: <strong>{selectedStudent.boarding_category === 'HOSTEL_SPECIAL' ? 'Special Boarder' : selectedStudent.boarding_category === 'DAY_SCHOLAR' ? 'Day Scholar' : 'Ordinary Boarder'}</strong>
                 {selectedStudent.is_sponsored && (
                   <span style={{ marginLeft: '6px', color: '#1e3b22', fontWeight: 700 }}>• Sponsor: {selectedStudent.sponsor_name || 'Govt Sponsor'}</span>
                 )}

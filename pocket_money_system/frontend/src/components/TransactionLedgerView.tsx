@@ -7,7 +7,7 @@ import { Search, Printer, RotateCcw, Clock, ChevronLeft, ChevronRight, History }
 interface TransactionLedgerViewProps {
   transactions: PocketTransaction[];
   loading: boolean;
-  totalHostellers: number;
+  totalStudents: number;
   currentlyHeldBalance: number;
   onDeleteTransaction?: (id: number) => void;
 }
@@ -48,7 +48,7 @@ export const TransactionLedgerView: React.FC<TransactionLedgerViewProps> = ({
         { header: 'Date & Time Timestamp', accessor: (tx: PocketTransaction) => tx.created_at || tx.transaction_date, width: '18%' },
         { header: 'Receipt Ref', accessor: (tx: PocketTransaction) => tx.receipt_ref || '-', width: '14%' },
         { header: 'PayID', accessor: (tx: PocketTransaction) => tx.pay_id || '-', width: '12%' },
-        { header: 'Hosteller Name', accessor: (tx: PocketTransaction) => tx.student_name || 'Unknown', width: '22%' },
+        { header: 'Student Name', accessor: (tx: PocketTransaction) => tx.student_name || 'Unknown', width: '22%' },
         { header: 'Class & Sec', accessor: (tx: PocketTransaction) => `${formatStandard(tx.standard)} - ${tx.section}`, align: 'center', width: '12%' },
         { header: 'Transaction Type', accessor: (tx: PocketTransaction) => tx.transaction_type.replace(/_/g, ' '), width: '16%' },
         { header: 'Amount (K)', accessor: (tx: PocketTransaction) => `K ${Math.round(tx.amount).toLocaleString('en-IN')}`, align: 'right', width: '14%' },
@@ -156,7 +156,7 @@ export const TransactionLedgerView: React.FC<TransactionLedgerViewProps> = ({
                 <th style={{ width: '18%', padding: '10px 12px' }}>DATE & TIMESTAMP</th>
                 <th style={{ width: '14%', padding: '10px 12px' }}>RECEIPT REF</th>
                 <th style={{ width: '12%', padding: '10px 12px', fontFamily: 'monospace' }}>PAYID</th>
-                <th style={{ width: '22%', padding: '10px 12px' }}>HOSTELLER NAME</th>
+                <th style={{ width: '22%', padding: '10px 12px' }}>STUDENT NAME</th>
                 <th style={{ width: '16%', padding: '10px 12px', textAlign: 'center' }}>TYPE</th>
                 <th style={{ width: '18%', padding: '10px 12px', textAlign: 'right' }}>AMOUNT (K)</th>
               </tr>

@@ -72,7 +72,7 @@ export const TopBar: React.FC<TopBarProps> = ({
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Global Search: student name, admission..."
             style={{ paddingLeft: '38px' }}
-            className="w-full bg-[var(--bg-sidebar)] border border-[var(--border-dark)] rounded-md pr-3 py-1.5 text-xs text-[var(--text-header)] placeholder-[var(--text-header-muted)] focus:outline-none focus:border-[var(--accent-gold)] font-medium transition"
+            className="w-full bg-[var(--bg-sidebar)] border border-[var(--border-dark)] rounded-md pr-3 py-1.5 text-xs text-[var(--text-header)] placeholder-[var(--text-header-muted)] focus:outline-none focus:border-[var(--accent-gold)] focus:ring-1 focus:ring-[var(--accent-gold)] caret-[var(--accent-gold)] font-medium transition"
           />
         </div>
 

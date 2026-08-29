@@ -64,7 +64,7 @@ export const StudentHistoryModal: React.FC<StudentHistoryModalProps> = ({
               {student.name}
             </h2>
             <div style={{ fontSize: '12px', color: '#7c6a58', fontWeight: 600, marginTop: '2px' }}>
-              PayID: <strong style={{ color: '#422b1b', fontFamily: 'JetBrains Mono' }}>{student.pay_id}</strong> • Class: <strong>{student.academic_level} ({student.current_standard}-{student.current_section})</strong> • Scheme: <strong>{student.boarding_category === 'HOSTEL_SPECIAL' ? 'Special Boarder' : 'Ordinary Boarder'}</strong>
+              PayID: <strong style={{ color: '#422b1b', fontFamily: 'JetBrains Mono' }}>{student.pay_id}</strong> • Class: <strong>{student.academic_level} ({student.current_standard}-{student.current_section})</strong> • Category: <strong>{student.boarding_category === 'HOSTEL_SPECIAL' ? 'Special Boarder' : student.boarding_category === 'DAY_SCHOLAR' ? 'Day Scholar' : 'Ordinary Boarder'}</strong>
             </div>
           </div>
 

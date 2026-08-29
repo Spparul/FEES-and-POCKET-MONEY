@@ -6,7 +6,7 @@ from routers import students, pocket_money
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="Canisius Secondary School - Boarder Pocket Money Management System",
+    title="Canisius Secondary School - Student Pocket Money Management System",
     version="1.0.0"
 )
 
@@ -23,4 +23,4 @@ app.include_router(pocket_money.router)
 
 @app.get("/")
 def read_root():
-    return {"message": "Boarder Pocket Money Management API Running on Port 8001"}
+    return {"message": "Student Pocket Money Management API Running on Port 8001"}

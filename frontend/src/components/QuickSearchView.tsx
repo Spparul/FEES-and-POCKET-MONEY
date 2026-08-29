@@ -75,7 +75,7 @@ export const QuickSearchView: React.FC<QuickSearchViewProps> = ({ initialStudent
     const timer = setTimeout(async () => {
       setSearching(true);
       try {
-        const res = await fetch(`http://127.0.0.1:8000/students?search=${encodeURIComponent(searchQuery)}`);
+        const res = await fetch(`/students?search=${encodeURIComponent(searchQuery)}`);
         if (res.ok) {
           const data = await res.json();
           setSearchResults(data.slice(0, 8));
@@ -102,7 +102,7 @@ export const QuickSearchView: React.FC<QuickSearchViewProps> = ({ initialStudent
     const fetchPreview = async () => {
       setLoadingPreview(true);
       try {
-        const res = await fetch('http://127.0.0.1:8000/fees/payments/preview', {
+        const res = await fetch('/fees/payments/preview', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -142,7 +142,7 @@ export const QuickSearchView: React.FC<QuickSearchViewProps> = ({ initialStudent
     setSubmitting(true);
     setError(null);
     try {
-      const res = await fetch('http://127.0.0.1:8000/fees/payments/interactive', {
+      const res = await fetch('/fees/payments/interactive', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

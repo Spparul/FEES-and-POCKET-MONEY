@@ -51,7 +51,7 @@ export const DailyStatementView: React.FC<DailyStatementViewProps> = ({
         { header: 'Time', accessor: (t: PocketTransaction) => t.created_at || t.transaction_date, width: '16%' },
         { header: 'Receipt Ref', accessor: (t: PocketTransaction) => t.receipt_ref || '-', width: '15%' },
         { header: 'PayID', accessor: (t: PocketTransaction) => t.pay_id || '-', width: '12%' },
-        { header: 'Hosteller Name', accessor: (t: PocketTransaction) => t.student_name || 'Unknown', width: '22%' },
+        { header: 'Student Name', accessor: (t: PocketTransaction) => t.student_name || 'Unknown', width: '22%' },
         { header: 'Transaction Type', accessor: (t: PocketTransaction) => t.transaction_type.replace(/_/g, ' '), width: '18%' },
         { header: 'Amount (K)', accessor: (t: PocketTransaction) => `K ${Math.round(t.amount).toLocaleString('en-IN')}`, align: 'right', width: '17%' },
       ],
@@ -179,7 +179,7 @@ export const DailyStatementView: React.FC<DailyStatementViewProps> = ({
               >
                 <div className="flex items-center justify-between" style={{ marginBottom: '6px' }}>
                   <span style={{ fontSize: '11px', fontWeight: 800, color: '#4a2511', textTransform: 'uppercase' }}>
-                    MONEY ISSUED (GIVEN TO BOYS)
+                    MONEY ISSUED (GIVEN TO STUDENTS)
                   </span>
                   <ArrowUpRight size={16} color="#4a2511" />
                 </div>
@@ -236,7 +236,7 @@ export const DailyStatementView: React.FC<DailyStatementViewProps> = ({
               <div className="flex items-center gap-6" style={{ fontSize: '13px', color: '#2c1f14', fontWeight: 700 }}>
                 <div>
                   <span style={{ color: '#7c6a58' }}>Unique Students Active: </span>
-                  <strong style={{ fontFamily: 'JetBrains Mono', fontSize: '14px' }}>{statement.unique_students_with_activity} Boys</strong>
+                  <strong style={{ fontFamily: 'JetBrains Mono', fontSize: '14px' }}>{statement.unique_students_with_activity} Students</strong>
                 </div>
 
                 <div>
@@ -282,7 +282,7 @@ export const DailyStatementView: React.FC<DailyStatementViewProps> = ({
                     <th style={{ width: '18%' }}>TIMESTAMP</th>
                     <th style={{ width: '15%' }}>RECEIPT REF</th>
                     <th style={{ width: '12%' }}>PAYID</th>
-                    <th style={{ width: '22%' }}>HOSTELLER NAME</th>
+                    <th style={{ width: '22%' }}>STUDENT NAME</th>
                     <th style={{ width: '15%', textAlign: 'center' }}>TRANSACTION TYPE</th>
                     <th style={{ width: '18%', textAlign: 'right' }}>AMOUNT (K)</th>
                   </tr>

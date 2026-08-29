@@ -10,6 +10,13 @@ interface BoarderRegisterViewProps {
   onOpenCounterDesk: (student: Student) => void;
 }
 
+const formatCategory = (cat: string) => {
+  if (cat === 'DAY_SCHOLAR') return 'Day Scholar';
+  if (cat === 'HOSTEL_ORDINARY') return 'Ordinary Boarder';
+  if (cat === 'HOSTEL_SPECIAL') return 'Special Boarder';
+  return cat;
+};
+
 export const BoarderRegisterView: React.FC<BoarderRegisterViewProps> = ({
   students,
   loading,
@@ -18,17 +25,14 @@ export const BoarderRegisterView: React.FC<BoarderRegisterViewProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [schemeFilter, setSchemeFilter] = useState('');
   const [classFilter, setClassFilter] = useState('');
-  const [statusFilter, setStatusFilter] = useState(''); // Default: Active only
+  const [statusFilter, setStatusFilter] = useState('');
   const [sponsorFilter, setSponsorFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 10; // strictly 10 records per page
+  const pageSize = 10;
 
-  // Filter hosteller boarders only (Excluding Day Scholars)
-  const hostellers = students.filter((s) => s.boarding_category !== 'DAY_SCHOLAR');
-  const activeHostellers = hostellers.filter(s => s.status !== 'TRANSFERRED');
+  const activeStudents = students.filter(s => s.status !== 'TRANSFERRED');
 
-  const filtered = hostellers.filter((s) => {
-    // Status Filter (Excludes TRANSFERRED by default unless selected)
+  const filtered = students.filter((s) => {
     const matchesStatus = statusFilter === 'TRANSFERRED'
       ? s.status === 'TRANSFERRED'
       : statusFilter === 'ALL'
@@ -57,22 +61,21 @@ export const BoarderRegisterView: React.FC<BoarderRegisterViewProps> = ({
     return matchesStatus && matchesSearch && matchesScheme && matchesClass && matchesSponsor;
   });
 
-  // Pagination calculation
   const totalPages = Math.ceil(filtered.length / pageSize) || 1;
   const startIndex = (currentPage - 1) * pageSize;
   const pageData = filtered.slice(startIndex, startIndex + pageSize);
 
   const handlePrintRegister = () => {
     printDataset({
-      title: 'CANISIUS SECONDARY SCHOOL — HOSTELLER BOARDER REGISTER',
-      subtitle: `Master Pocket Money Balances Register (${filtered.length} boarders)`,
+      title: 'CANISIUS SECONDARY SCHOOL — STUDENT POCKET MONEY REGISTER',
+      subtitle: `Master Pocket Money Balances Register (${filtered.length} students)`,
       academicYear: '2026–2027',
       columns: [
         { header: 'PayID', accessor: (s: Student) => s.pay_id, width: '15%' },
         { header: 'Student Name', accessor: (s: Student) => s.name, width: '25%' },
         { header: 'Class', accessor: (s: Student) => formatStandard(s.current_standard), align: 'center', width: '8%' },
         { header: 'Sec', accessor: (s: Student) => s.current_section || '—', align: 'center', width: '6%' },
-        { header: 'Boarding Scheme', accessor: (s: Student) => s.boarding_category === 'HOSTEL_SPECIAL' ? 'Special Boarder' : 'Ordinary Boarder', width: '18%' },
+        { header: 'Category', accessor: (s: Student) => formatCategory(s.boarding_category), width: '18%' },
         { header: 'Sponsor Name', accessor: (s: Student) => s.is_sponsored ? (s.sponsor_name || 'Sponsored') : 'Self-Paid', width: '16%' },
         { header: 'Balance (K)', accessor: (s: Student) => `K ${Math.round(s.current_balance).toLocaleString('en-IN')}`, align: 'right', width: '12%' },
       ],
@@ -82,28 +85,27 @@ export const BoarderRegisterView: React.FC<BoarderRegisterViewProps> = ({
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      
+
       {/* Header & Top Student Count Summary */}
       <div className="card" style={{ padding: '14px 18px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
           <div>
             <h2 style={{ fontSize: '15px', fontWeight: 800, color: 'var(--text-primary)', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Wallet size={18} style={{ color: 'var(--accent-gold)' }} />
-              HOSTELLER BOARDER REGISTER & BALANCES
+              STUDENT POCKET MONEY REGISTER & BALANCES
             </h2>
             <p style={{ fontSize: '11px', color: 'var(--text-secondary)', margin: '4px 0 0 0', fontWeight: 600 }}>
-              Master ledger of active hostellers ({activeHostellers.length} active boys). Transferred boys shown separately.
+              Master ledger of all students ({activeStudents.length} active). Transferred students shown separately for refund processing.
             </p>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            {/* PROMINENT TOP COUNTER PILL */}
             <div style={{ backgroundColor: 'var(--bg-table-head)', border: '1px solid var(--border-color)', padding: '6px 12px', borderRadius: '6px', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span style={{ fontSize: '10px', textTransform: 'uppercase', fontWeight: 800, color: 'var(--text-secondary)' }}>
-                FILTERED HOSTELLERS:
+                FILTERED STUDENTS:
               </span>
               <span style={{ fontSize: '14px', fontWeight: 800, fontFamily: 'monospace', color: 'var(--accent-gold)' }}>
-                {filtered.length} BOYS
+                {filtered.length}
               </span>
             </div>
 
@@ -126,7 +128,7 @@ export const BoarderRegisterView: React.FC<BoarderRegisterViewProps> = ({
           <Filter size={13} style={{ color: 'var(--accent-gold)' }} />
           <span style={{ fontWeight: 800, color: 'var(--text-secondary)', textTransform: 'uppercase' }}>FILTERS:</span>
 
-          {/* Status Filter (Excludes TRANSFERRED by default) */}
+          {/* Status Filter */}
           <select
             value={statusFilter}
             onChange={(e) => {
@@ -136,9 +138,9 @@ export const BoarderRegisterView: React.FC<BoarderRegisterViewProps> = ({
             className="select-field"
             style={{ fontSize: '12px', height: '28px', padding: '0 8px', fontWeight: 'bold' }}
           >
-            <option value="">Active Hostellers Only ({activeHostellers.length})</option>
-            <option value="TRANSFERRED">Transferred Hostellers Only</option>
-            <option value="ALL">All Hostellers (Inc Transferred)</option>
+            <option value="">Active Students Only ({activeStudents.length})</option>
+            <option value="TRANSFERRED">Transferred Students Only</option>
+            <option value="ALL">All Students (Inc Transferred)</option>
           </select>
 
           {/* Quick Search Input */}
@@ -157,7 +159,7 @@ export const BoarderRegisterView: React.FC<BoarderRegisterViewProps> = ({
             />
           </div>
 
-          {/* Class Filter Dropdown (Form 1, Form 2, Form 3, 11, 12 ONLY) */}
+          {/* Class Filter */}
           <select
             value={classFilter}
             onChange={(e) => {
@@ -175,7 +177,7 @@ export const BoarderRegisterView: React.FC<BoarderRegisterViewProps> = ({
             <option value="12">12</option>
           </select>
 
-          {/* Scheme Filter */}
+          {/* Category Filter */}
           <select
             value={schemeFilter}
             onChange={(e) => {
@@ -185,16 +187,17 @@ export const BoarderRegisterView: React.FC<BoarderRegisterViewProps> = ({
             className="select-field"
             style={{ fontSize: '12px', height: '28px', padding: '0 8px' }}
           >
-            <option value="">All Boarder Schemes</option>
-            <option value="HOSTEL_SPECIAL">Special Boarder</option>
+            <option value="">All Categories</option>
+            <option value="DAY_SCHOLAR">Day Scholar</option>
             <option value="HOSTEL_ORDINARY">Ordinary Boarder</option>
+            <option value="HOSTEL_SPECIAL">Special Boarder</option>
           </select>
         </div>
       </div>
 
-      {/* BOARDER TABLE WITH "SHOWING X TO Y OF Z RECORDS" ON TOP OF TABLE */}
+      {/* STUDENT POCKET MONEY TABLE */}
       <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
-        
+
         {/* TOP RECORD COUNTER BAR */}
         <div style={{ padding: '10px 14px', backgroundColor: 'var(--bg-table-head)', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px', fontSize: '12px', fontFamily: 'monospace' }}>
           <span style={{ color: 'var(--text-primary)', fontWeight: 700 }}>
@@ -232,7 +235,7 @@ export const BoarderRegisterView: React.FC<BoarderRegisterViewProps> = ({
                 <th style={{ width: '26%', padding: '10px 12px' }}>STUDENT NAME</th>
                 <th style={{ width: '8%', padding: '10px 12px', textAlign: 'center' }}>CLASS</th>
                 <th style={{ width: '6%', padding: '10px 12px', textAlign: 'center' }}>SEC</th>
-                <th style={{ width: '18%', padding: '10px 12px' }}>BOARDING SCHEME</th>
+                <th style={{ width: '18%', padding: '10px 12px' }}>CATEGORY</th>
                 <th style={{ width: '14%', padding: '10px 12px', textAlign: 'right' }}>HELD BALANCE</th>
                 <th style={{ width: '14%', padding: '10px 12px', textAlign: 'center' }}>ACTION</th>
               </tr>
@@ -241,13 +244,13 @@ export const BoarderRegisterView: React.FC<BoarderRegisterViewProps> = ({
               {loading ? (
                 <tr>
                   <td colSpan={7} style={{ padding: '30px', textAlign: 'center', color: 'var(--text-secondary)', fontWeight: 'bold' }}>
-                    Loading boarder records...
+                    Loading student records...
                   </td>
                 </tr>
               ) : pageData.length === 0 ? (
                 <tr>
                   <td colSpan={7} style={{ padding: '30px', textAlign: 'center', color: 'var(--text-secondary)', fontWeight: 'bold' }}>
-                    No hostellers match the selected search or filter criteria.
+                    No students match the selected search or filter criteria.
                   </td>
                 </tr>
               ) : (
@@ -280,25 +283,24 @@ export const BoarderRegisterView: React.FC<BoarderRegisterViewProps> = ({
                         {student.current_section || '—'}
                       </td>
                       <td style={{ padding: '10px 12px', fontWeight: 'bold', color: 'var(--text-primary)' }}>
-                        {student.boarding_category === 'HOSTEL_SPECIAL' ? 'Special Scheme' : 'Ordinary Hosteller'}
+                        {formatCategory(student.boarding_category)}
                       </td>
                       <td style={{ padding: '10px 12px', textAlign: 'right', fontFamily: 'monospace', fontWeight: 800, color: 'var(--pill-paid-text)' }}>
                         K {Math.round(student.current_balance || 0).toLocaleString('en-IN')}
                       </td>
                       <td style={{ padding: '10px 12px', textAlign: 'center' }}>
-                        {!isTransferred ? (
-                          <button
-                            onClick={() => onOpenCounterDesk(student)}
-                            className="btn btn-secondary"
-                            style={{ fontSize: '11px', padding: '4px 8px', fontWeight: 'bold' }}
-                          >
-                            Counter Desk
-                          </button>
-                        ) : (
-                          <span style={{ fontSize: '10px', fontWeight: 'bold', color: 'var(--text-secondary)', padding: '2px 6px', backgroundColor: 'var(--bg-table-head)', borderRadius: '4px' }}>
-                            Tx Disabled
-                          </span>
-                        )}
+                        <button
+                          onClick={() => onOpenCounterDesk(student)}
+                          className="btn btn-secondary"
+                          style={{
+                            fontSize: '11px',
+                            padding: '4px 8px',
+                            fontWeight: 'bold',
+                            ...(isTransferred ? { backgroundColor: 'rgba(217, 119, 6, 0.1)', borderColor: '#d97706', color: '#92400e' } : {})
+                          }}
+                        >
+                          {isTransferred ? 'Refund' : 'Counter Desk'}
+                        </button>
                       </td>
                     </tr>
                   );

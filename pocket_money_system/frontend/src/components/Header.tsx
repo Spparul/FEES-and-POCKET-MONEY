@@ -3,7 +3,7 @@ import { ArrowDownLeft, ArrowUpRight, RotateCcw, Wallet } from 'lucide-react';
 
 interface HeaderProps {
   activeTab: 'quickdesk' | 'register' | 'history' | 'daily' | 'monthly' | 'yearly';
-  totalHostellers: number;
+  totalStudents: number;
   totalHeldBalance: number;
   totalReceived?: number;
   totalGiven?: number;
@@ -12,7 +12,7 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({
   activeTab,
-  totalHostellers,
+  totalStudents,
   totalHeldBalance,
   totalReceived = 0,
   totalGiven = 0,
@@ -20,7 +20,7 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const tabTitles = {
     quickdesk: "Quick Counter Desk",
-    register: "All Hostellers Register",
+    register: "All Students Register",
     history: "Master Transaction Ledger",
     daily: "Daily Activity Statement",
     monthly: "Monthly Statement",
@@ -35,7 +35,7 @@ export const Header: React.FC<HeaderProps> = ({
           {tabTitles[activeTab]}
         </h1>
         <span style={{ fontSize: '12px', color: '#7c6a58', fontWeight: 600 }}>
-          ({totalHostellers} Boarders)
+          ({totalStudents} Students)
         </span>
       </div>
 

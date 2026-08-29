@@ -134,7 +134,7 @@ export function printDataset(config: PrintDatasetConfig) {
         </table>
 
         <div class="footer">
-          Official Financial Document • Canisius Secondary School Boarder Pocket Money System • Page 1 of 1
+          Official Financial Document • Canisius Secondary School Student Pocket Money System • Page 1 of 1
         </div>
       </body>
     </html>

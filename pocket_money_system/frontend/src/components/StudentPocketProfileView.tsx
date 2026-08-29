@@ -29,7 +29,7 @@ export const StudentPocketProfileView: React.FC<StudentPocketProfileViewProps> =
   if (loading || !data) {
     return (
       <div className="p-16 text-center text-slate-400 font-bold text-xl animate-fadeIn">
-        Loading Hosteller Pocket Money Profile...
+        Loading Student Pocket Money Profile...
       </div>
     );
   }
@@ -83,11 +83,11 @@ export const StudentPocketProfileView: React.FC<StudentPocketProfileViewProps> =
         </div>
       </div>
 
-      {/* Hosteller Banner */}
+      {/* Student Banner */}
       <div className="bg-slate-800/90 border-2 border-slate-700 p-8 rounded-3xl shadow-xl flex flex-wrap items-center justify-between gap-6">
         <div>
           <span className="px-3 py-1 rounded-full bg-amber-400/10 text-amber-400 border border-amber-400/20 text-xs font-mono font-extrabold uppercase">
-            HOSTELLER POCKET MONEY ACCOUNT
+            STUDENT POCKET MONEY ACCOUNT
           </span>
           <h2 className="text-4xl font-extrabold font-heading text-white mt-2">{student.name}</h2>
           <div className="flex items-center gap-4 text-slate-300 font-mono text-lg mt-1 font-bold">
@@ -147,7 +147,7 @@ export const StudentPocketProfileView: React.FC<StudentPocketProfileViewProps> =
 
         {pocket_transactions.length === 0 ? (
           <div className="p-12 text-center text-slate-400 font-bold text-lg bg-slate-900 rounded-2xl border border-slate-700">
-            No pocket money transactions recorded for this boarder yet.
+            No pocket money transactions recorded for this student yet.
           </div>
         ) : (
           <div className="overflow-x-auto">

@@ -112,12 +112,12 @@ export const RecordTransactionScreen: React.FC<RecordTransactionScreenProps> = (
           className="flex items-center gap-2 text-white font-bold bg-slate-800 hover:bg-slate-700 px-5 py-3 rounded-2xl border border-slate-700 transition cursor-pointer shadow-sm text-lg"
         >
           <ArrowLeft className="w-5 h-5" />
-          <span>Back to Hosteller Register</span>
+          <span>Back to Student Register</span>
         </button>
 
         <div className="text-right">
           <span className="text-xs font-extrabold uppercase tracking-widest text-slate-400">
-            Canisius Boarder Pocket Money System
+            Canisius Student Pocket Money System
           </span>
           <h2 className="text-3xl font-extrabold font-heading text-white">
             Record Pocket Money Transaction
@@ -138,7 +138,7 @@ export const RecordTransactionScreen: React.FC<RecordTransactionScreenProps> = (
         {/* Student Information Banner */}
         <div className="bg-slate-900 border border-slate-700 p-6 rounded-2xl flex flex-wrap items-center justify-between gap-4">
           <div>
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Hosteller Name & PayID</span>
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Student Name & PayID</span>
             <h3 className="text-3xl font-extrabold text-white">{student.name}</h3>
             <span className="text-base font-mono font-bold text-amber-400 block mt-0.5">PayID: {student.pay_id}</span>
           </div>
