@@ -5,6 +5,10 @@
   "description": "Canisius Secondary School Fee System Frontend",
   "author": "Canisius Secondary School",
   "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Spparul/FEES-and-POCKET-MONEY.git"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",
