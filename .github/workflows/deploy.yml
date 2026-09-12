@@ -2,20 +2,22 @@ name: Deploy Dual Web Applications to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: ["main"]
   workflow_dispatch:
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# Allow one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 concurrency:
   group: "pages"
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -33,18 +35,21 @@ jobs:
             frontend/package-lock.json
             pocket_money_system/frontend/package-lock.json
 
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
       # 1. Build App 1: School Fee System
       - name: Build School Fee Frontend (App 1)
         run: |
           cd frontend
-          npm ci --legacy-peer-deps || npm install --legacy-peer-deps
+          npm install --legacy-peer-deps
           npm run build
 
       # 2. Build App 2: Boarder Pocket Money System
       - name: Build Pocket Money Frontend (App 2)
         run: |
           cd pocket_money_system/frontend
-          npm ci --legacy-peer-deps || npm install --legacy-peer-deps
+          npm install --legacy-peer-deps
           npm run build
 
       # 3. Combine both web apps for single GitHub Pages deployment
@@ -63,3 +68,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
