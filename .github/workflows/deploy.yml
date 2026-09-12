@@ -37,14 +37,14 @@ jobs:
       - name: Build School Fee Frontend (App 1)
         run: |
           cd frontend
-          npm ci
+          npm ci --legacy-peer-deps || npm install --legacy-peer-deps
           npm run build
 
       # 2. Build App 2: Boarder Pocket Money System
       - name: Build Pocket Money Frontend (App 2)
         run: |
           cd pocket_money_system/frontend
-          npm ci
+          npm ci --legacy-peer-deps || npm install --legacy-peer-deps
           npm run build
 
       # 3. Combine both web apps for single GitHub Pages deployment
