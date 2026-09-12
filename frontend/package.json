@@ -1,8 +1,10 @@
 {
   "name": "school-fee-frontend",
-  "private": true,
   "version": "1.0.0",
+  "private": true,
   "description": "Canisius Secondary School Fee System Frontend",
+  "author": "Canisius Secondary School",
+  "license": "UNLICENSED",
   "type": "module",
   "scripts": {
     "dev": "vite",
