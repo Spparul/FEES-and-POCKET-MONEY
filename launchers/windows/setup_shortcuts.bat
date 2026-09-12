@@ -8,7 +8,8 @@ set SCRIPT_DIR=%~dp0
 set DESKTOP=%USERPROFILE%\Desktop
 
 echo Installing Python dependencies...
-pip install fastapi uvicorn sqlalchemy psycopg2-binary >nul 2>&1
+pip install -r "%SCRIPT_DIR%..\..\backend\requirements.txt" >nul 2>&1
+pip install -r "%SCRIPT_DIR%..\..\pocket_money_system\backend\requirements.txt" >nul 2>&1
 echo Done.
 echo.
 
